@@ -7,3 +7,6 @@ hook:
 
 lint:
 	npm install -g @commitlint/cli @commitlint/config-conventional
+
+addlicense:
+	addlicense -c 'space-code' -l mit ./**/*.go

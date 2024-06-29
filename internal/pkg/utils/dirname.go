@@ -17,4 +17,32 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package http
+package utils
+
+import (
+	"errors"
+	"path/filepath"
+	"runtime"
+)
+
+// Dirname returns the directory path of the current file where it is called.
+func Dirname() (string, error) {
+	filename, err := filename()
+
+	if err != nil {
+		return "", err
+	}
+
+	return filepath.Dir(filename), nil
+}
+
+// filename returns the full path of the current file where it is called.
+func filename() (string, error) {
+	_, filename, _, ok := runtime.Caller(2)
+
+	if !ok {
+		return "", errors.New("unable to get the current filename")
+	}
+
+	return filename, nil
+}

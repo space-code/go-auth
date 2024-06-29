@@ -18,3 +18,24 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 package http
+
+import (
+	"context"
+	"os"
+	"os/signal"
+	"syscall"
+)
+
+// NewContext creates a new context that listens for OS interrupt signals.
+func NewContext() context.Context {
+	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
+
+	go func() {
+		for {
+			<-ctx.Done()
+			cancel()
+		}
+	}()
+
+	return ctx
+}

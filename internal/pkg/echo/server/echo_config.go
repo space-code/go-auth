@@ -17,4 +17,12 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package http
+package echoserver
+
+// EchoConfig defines the configuration options for the Echo server.
+type EchoConfig struct {
+	// The port on which the server will listen. This field is required.
+	Port string `mapstructure:"port" validate:"required"`
+	// Development indicates if the server is in development mode.
+	Development bool `mapstructure:"development"`
+}

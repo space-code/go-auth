@@ -17,4 +17,38 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package http
+package echoserver
+
+import (
+	"context"
+
+	"github.com/labstack/echo/v4"
+)
+
+// NewEchoServer initializes and returns a new Echo server instance.
+func NewEchoServer() *echo.Echo {
+	e := echo.New()
+	return e
+}
+
+// RunHTTPServer starts the Echo HTTP server with the specified configuration and context.
+func RunHTTPServer(ctx context.Context, echo *echo.Echo, cfg *EchoConfig) error {
+	echo.Server.ReadTimeout = ReadTimeout
+	echo.Server.WriteTimeout = WriteTimeout
+	echo.Server.MaxHeaderBytes = MaxHeaderBytes
+
+	go func() {
+		for {
+			<-ctx.Done()
+			err := echo.Shutdown(ctx)
+
+			if err != nil {
+				return
+			}
+		}
+	}()
+
+	err := echo.Start(cfg.Port)
+
+	return err
+}
