@@ -5,12 +5,12 @@ go 1.22.3
 require (
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/pkg/errors v0.9.1
+	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/viper v1.19.0
 	go.uber.org/fx v1.22.1
 )
 
 require (
-	github.com/denis-tingaikin/go-header v0.5.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect

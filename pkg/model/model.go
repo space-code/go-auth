@@ -18,3 +18,21 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 package model
+
+import (
+	"time"
+
+	uuid "github.com/satori/go.uuid"
+)
+
+// User represents a user entity in the system
+type User struct {
+	UserID    uuid.UUID `json:"userID" gorm:"primaryKey"`
+	FirstName string    `json:"firstName"`
+	LastName  string    `json:"lastName"`
+	UserName  string    `json:"username"`
+	Email     string    `json:"email"`
+	Password  string    `json:"password"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
