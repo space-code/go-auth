@@ -21,6 +21,7 @@ package main
 
 import (
 	"github.com/space-code/go-auth/config"
+	"github.com/space-code/go-auth/internal/configurations"
 	echoserver "github.com/space-code/go-auth/internal/pkg/echo/server"
 	"github.com/space-code/go-auth/internal/pkg/http"
 	"github.com/space-code/go-auth/server"
@@ -35,5 +36,6 @@ func main() {
 			echoserver.NewEchoServer,
 		),
 		fx.Invoke(server.RunServer),
+		fx.Invoke(configurations.ConfigMiddlewares),
 	).Run()
 }

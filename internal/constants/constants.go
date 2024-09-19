@@ -17,29 +17,15 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package configurations
+package constants
 
-import (
-	"strings"
+const (
+	// GZipLevel defines the compression level for Gzip middleware.
+	// The level ranges from 1 (best speed) to 9 (best compression).
+	// A value of 5 provides a balance between compression speed and effectiveness.
+	GZipLevel = 5
 
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-	"github.com/space-code/go-auth/internal/constants"
+	// BodyLimit sets the maximum size of the incoming request body.
+	// The "2M" value means the request body is limited to 2 megabytes.
+	BodyLimit = "2M"
 )
-
-// ConfigMiddlewares configures middleware for the Echo web server.
-func ConfigMiddlewares(e *echo.Echo) {
-	e.HideBanner = false
-
-	e.Use(middleware.Logger())
-	e.Use(middleware.RequestID())
-
-	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{
-		Level: constants.GZipLevel,
-		Skipper: func(c echo.Context) bool {
-			return strings.Contains(c.Request().URL.Path, "swagger")
-		},
-	}))
-
-	e.Use(middleware.BodyLimit(constants.BodyLimit))
-}
