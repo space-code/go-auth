@@ -17,15 +17,15 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package dtos
+package contracts
 
-import uuid "github.com/satori/go.uuid"
+import (
+	"context"
 
-type RegisterUserResponseDto struct {
-	UserID    uuid.UUID `json:"userId"`
-	FirstName string    `json:"firstName"`
-	LastName  string    `json:"lastName"`
-	UserName  string    `json:"userName"`
-	Email     string    `json:"email"`
-	Password  string    `json:"password"`
+	"github.com/space-code/go-auth/pkg/model"
+)
+
+// UserRepository defines the interface for user-related operations in the repository layer.
+type UserRepository interface {
+	RegisterUser(ctx context.Context, user *model.User) (*model.User, error)
 }

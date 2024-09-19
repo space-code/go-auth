@@ -17,15 +17,20 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package dtos
+package utils
 
-import uuid "github.com/satori/go.uuid"
+import "golang.org/x/crypto/bcrypt"
 
-type RegisterUserResponseDto struct {
-	UserID    uuid.UUID `json:"userId"`
-	FirstName string    `json:"firstName"`
-	LastName  string    `json:"lastName"`
-	UserName  string    `json:"userName"`
-	Email     string    `json:"email"`
-	Password  string    `json:"password"`
+// HashPassword hashes a plaintext password using bcrypt.
+// It takes the plaintext password as input and returns the hashed password and any error that occurs during hashing.
+func HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+
+	if err != nil {
+		return *new(string), err
+	}
+
+	password = string(hashedPassword)
+
+	return password, err
 }
