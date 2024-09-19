@@ -3,6 +3,8 @@ module github.com/space-code/go-auth
 go 1.22.3
 
 require (
+	github.com/go-oauth2/oauth2/v4 v4.5.2
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/pkg/errors v0.9.1
 	github.com/satori/go.uuid v1.2.0
@@ -12,6 +14,7 @@ require (
 
 require (
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
+	github.com/google/uuid v1.4.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
