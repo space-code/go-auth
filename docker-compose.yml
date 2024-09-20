@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: ./Dockerfile
     container_name: auth
-    restart: always
-    environment:
-      - PORT=8082
+    restart: unless-stopped
+    ports:
+      - 8082:8082
+    expose:
+      - '8082'

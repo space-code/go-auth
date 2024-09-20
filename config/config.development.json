@@ -1,7 +1,13 @@
 {
     "service_name": "auth",
+    "context": {
+        "timeout": 20
+    },
     "echo": {
         "port": ":8082",
-        "development": true
+        "development": true,
+        "host": "http://localhost",
+        "timeout": 30,
+        "basePath": "/api/v1"
     }
 }

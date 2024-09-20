@@ -33,7 +33,7 @@ import (
 
 // MapRoute defines the route for user-related endpoints in the Echo framework.
 func MapRoute(validator *validator.Validate, echo *echo.Echo, ctx context.Context) {
-	group := echo.Group("api/v1/users")
+	group := echo.Group("/api/v1/users")
 	group.POST("", createUser(validator, ctx), middlewares.ValidateBearerToken())
 }
 

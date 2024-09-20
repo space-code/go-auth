@@ -25,4 +25,11 @@ type EchoConfig struct {
 	Port string `mapstructure:"port" validate:"required"`
 	// Development indicates if the server is in development mode.
 	Development bool `mapstructure:"development"`
+	// Host specifies the hostname or IP address that the server will bind to.
+	Host string `mapstructure:"host"`
+	// Timeout sets the maximum duration, in seconds, that the server should wait
+	// for a request to complete before timing out.
+	Timeout int `mapstructure:"timeout"`
+	// BasePath defines the base URL path for all routes served by the Echo server.
+	BasePath string `mapstructure:"basePath" validate:"required"`
 }

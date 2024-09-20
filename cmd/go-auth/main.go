@@ -31,14 +31,16 @@ import (
 
 func main() {
 	fx.New(
-		fx.Provide(
-			config.InitConfig,
-			http.NewContext,
-			echoserver.NewEchoServer,
-			validator.New,
+		fx.Options(
+			fx.Provide(
+				config.InitConfig,
+				http.NewContext,
+				echoserver.NewEchoServer,
+				validator.New,
+			),
+			fx.Invoke(server.RunServer),
+			fx.Invoke(configurations.ConfigMiddlewares),
+			fx.Invoke(configurations.ConfigEndpoints),
 		),
-		fx.Invoke(server.RunServer),
-		fx.Invoke(configurations.ConfigMiddlewares),
-		fx.Invoke(configurations.ConfigEndpoints),
 	).Run()
 }

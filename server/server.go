@@ -32,10 +32,10 @@ import (
 )
 
 // RunServer adds lifecycle hooks to manage the Echo server startup and shutdown.
-func RunServer(lc fx.Lifecycle, e *echo.Echo, cfg *config.Config) error {
+func RunServer(lc fx.Lifecycle, e *echo.Echo, cfg *config.Config, ctx context.Context) error {
 	lc.Append(
 		fx.Hook{
-			OnStart: func(ctx context.Context) error {
+			OnStart: func(_ context.Context) error {
 				go func() {
 					if err := echoserver.RunHTTPServer(ctx, e, cfg.Echo); !errors.Is(err, http.ErrServerClosed) {
 						log.Fatalf("error running http server: %v", err)
