@@ -20,6 +20,7 @@
 package main
 
 import (
+	"github.com/go-playground/validator"
 	"github.com/space-code/go-auth/config"
 	"github.com/space-code/go-auth/internal/configurations"
 	echoserver "github.com/space-code/go-auth/internal/pkg/echo/server"
@@ -34,8 +35,10 @@ func main() {
 			config.InitConfig,
 			http.NewContext,
 			echoserver.NewEchoServer,
+			validator.New,
 		),
 		fx.Invoke(server.RunServer),
 		fx.Invoke(configurations.ConfigMiddlewares),
+		fx.Invoke(configurations.ConfigEndpoints),
 	).Run()
 }

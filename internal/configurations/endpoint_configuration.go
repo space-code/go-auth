@@ -18,3 +18,16 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 package configurations
+
+import (
+	"context"
+
+	"github.com/go-playground/validator"
+	"github.com/labstack/echo/v4"
+	endpointsv1 "github.com/space-code/go-auth/internal/features/registering_user/v1/endpoints"
+)
+
+// ConfigEndpoints configures the API endpoints for the application.
+func ConfigEndpoints(validator *validator.Validate, echo *echo.Echo, ctx context.Context) {
+	endpointsv1.MapRoute(validator, echo, ctx)
+}
