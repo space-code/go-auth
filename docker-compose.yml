@@ -1,13 +1,42 @@
 version: '3.9'
 
 services:
+
+  #######################################################
+  #  Auth
+  #######################################################
   auth:
     build:
       context: .
       dockerfile: ./Dockerfile
     container_name: auth
     restart: unless-stopped
+    depends_on:
+      - postgres
     ports:
       - 8082:8082
     expose:
       - '8082'
+    networks:
+      - auth
+
+  #######################################################
+  #  Postgres
+  #######################################################
+  postgres:
+    container_name: postgres
+    image: postgres:13-alpine
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - auth
+
+networks:
+  auth:
+    driver: bridge

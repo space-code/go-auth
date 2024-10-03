@@ -17,35 +17,25 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-package main
+package configurations
 
 import (
-	"github.com/go-playground/validator"
-	"github.com/space-code/go-auth/config"
-	"github.com/space-code/go-auth/internal/configurations"
-	"github.com/space-code/go-auth/internal/data/repositories"
-	echoserver "github.com/space-code/go-auth/internal/pkg/echo/server"
-	gormpgsql "github.com/space-code/go-auth/internal/pkg/gorm_pgsql"
-	"github.com/space-code/go-auth/internal/pkg/http"
-	"github.com/space-code/go-auth/server"
-	"go.uber.org/fx"
+	"context"
+
+	"github.com/mehdihadeli/go-mediatr"
+	"github.com/space-code/go-auth/internal/data/contracts"
+	commandsv1 "github.com/space-code/go-auth/internal/features/registering_user/v1/commands"
+	"github.com/space-code/go-auth/internal/features/registering_user/v1/dtos"
 )
 
-func main() {
-	fx.New(
-		fx.Options(
-			fx.Provide(
-				config.InitConfig,
-				http.NewContext,
-				echoserver.NewEchoServer,
-				validator.New,
-				gormpgsql.NewGorm,
-				repositories.NewPostgresUserRepository,
-			),
-			fx.Invoke(server.RunServer),
-			fx.Invoke(configurations.ConfigMiddlewares),
-			fx.Invoke(configurations.ConfigEndpoints),
-			fx.Invoke(configurations.ConfigUsersMediator),
-		),
-	).Run()
+// ConfigUsersMediator registers the request handler for user registration
+// with the mediator using the specified UserRepository and context.
+func ConfigUsersMediator(userRepository contracts.UserRepository, ctx context.Context) error {
+	err := mediatr.RegisterRequestHandler[*commandsv1.RegisterUser, *dtos.RegisterUserResponseDto](commandsv1.NewRegisterUserHandler(userRepository, ctx))
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -28,19 +28,18 @@ import (
 	"github.com/mehdihadeli/go-mediatr"
 	commandsv1 "github.com/space-code/go-auth/internal/features/registering_user/v1/commands"
 	dtosv1 "github.com/space-code/go-auth/internal/features/registering_user/v1/dtos"
-	"github.com/space-code/go-auth/internal/middlewares"
 )
 
 // MapRoute defines the route for user-related endpoints in the Echo framework.
 func MapRoute(validator *validator.Validate, echo *echo.Echo, ctx context.Context) {
 	group := echo.Group("/api/v1/users")
-	group.POST("", createUser(validator, ctx), middlewares.ValidateBearerToken())
+	group.POST("", createUser(validator, ctx)) //, middlewares.ValidateBearerToken())
 }
 
 // createUser handles the HTTP POST request to register a new user.
 func createUser(validator *validator.Validate, ctx context.Context) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		request := dtosv1.RegisterUserRequestDto{}
+		request := &dtosv1.RegisterUserRequestDto{}
 
 		if err := c.Bind(request); err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, err)

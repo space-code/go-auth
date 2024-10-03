@@ -26,6 +26,7 @@ import (
 
 	"github.com/pkg/errors"
 	echoserver "github.com/space-code/go-auth/internal/pkg/echo/server"
+	gormpgsql "github.com/space-code/go-auth/internal/pkg/gorm_pgsql"
 	"github.com/space-code/go-auth/internal/pkg/utils"
 	"github.com/spf13/viper"
 )
@@ -35,7 +36,8 @@ type Config struct {
 	// Name of the service.
 	ServiceName string `mapstructure:"serviceName"`
 	// Configuration for the Echo server.
-	Echo *echoserver.EchoConfig `mapstructure:"echo"`
+	Echo         *echoserver.EchoConfig        `mapstructure:"echo"`
+	GormPostgres *gormpgsql.GormPostgresConfig `mapstructure:"gormPostgres"`
 }
 
 // configPath holds the path to the microservices configuration file.
@@ -46,7 +48,7 @@ func init() {
 }
 
 // InitConfig initializes and returns a new configuration by reading from a file.
-func InitConfig() (*Config, *echoserver.EchoConfig, error) {
+func InitConfig() (*Config, *echoserver.EchoConfig, *gormpgsql.GormPostgresConfig, error) {
 	env := os.Getenv("APP_ENV")
 
 	if env == "" {
@@ -62,7 +64,7 @@ func InitConfig() (*Config, *echoserver.EchoConfig, error) {
 			d, err := utils.Dirname()
 
 			if err != nil {
-				return nil, nil, err
+				return nil, nil, nil, err
 			}
 
 			configPath = d
@@ -76,12 +78,12 @@ func InitConfig() (*Config, *echoserver.EchoConfig, error) {
 	viper.SetConfigType("json")
 
 	if err := viper.ReadInConfig(); err != nil {
-		return nil, nil, errors.Wrap(err, "viper.ReadInConfig")
+		return nil, nil, nil, errors.Wrap(err, "viper.ReadInConfig")
 	}
 
 	if err := viper.Unmarshal(cfg); err != nil {
-		return nil, nil, errors.Wrap(err, "viper.Unmarshal")
+		return nil, nil, nil, errors.Wrap(err, "viper.Unmarshal")
 	}
 
-	return cfg, cfg.Echo, nil
+	return cfg, cfg.Echo, cfg.GormPostgres, nil
 }
